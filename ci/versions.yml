@@ -26,16 +26,16 @@ data:
       usage: |
         docker run -p 80:80 -v $(pwd):/var/www ebuildy/nginx:1.10
 
-  - name: nginx+letencrypt
+  - name: nginx+letsencrypt
     docker:
       tags:
-      - letencrypt
-      - 1.10+letencrypt
+      - ssl
+      - 1.10+ssl
     build:
-      file: Dockerfile.nginx+letencrypt.mustache
+      file: Dockerfile.nginx+letsencrypt.mustache
       paths:
         - nginx
-        - letencrypt
+        - letsencrypt
       data:
         nginx_version: "1.10.*"
     readme:
@@ -50,6 +50,6 @@ data:
         - 80
         - 443
       description: |
-        Nginx 1.10 with LetEncrypt companion to automatically generate SSL certificates.
+        Nginx 1.10 with LetsEncrypt companion to automatically generate SSL certificates.
       usage: |
-        docker run -p 80:80 -p 443:443 -v $(pwd):/var/www ebuildy/nginx:1.10+letencrypt
+        docker run -p 80:80 -p 443:443 -v $(pwd):/var/www ebuildy/nginx:1.10+ssl

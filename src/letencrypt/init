@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv bash
-
-if [[ ! -f /etc/nginx/certs/dhparam.pem ]]; then
-    echo "Creating Diffie-Hellman group (can take several minutes...)"
-    openssl dhparam -out /etc/nginx/certs/.dhparam.pem.tmp 2048
-    mv /etc/nginx/certs/.dhparam.pem.tmp /etc/nginx/certs/dhparam.pem || exit 1
-fi

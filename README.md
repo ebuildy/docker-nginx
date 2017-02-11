@@ -1,4 +1,4 @@
-Yet another Docker image with Nginx and LetEncrypt, from Debian Jessie (8), with healcheck port 80 and 443.
+Yet another Docker image with Nginx and LetsEncrypt, from Debian Jessie (8), with healcheck port 80 and 443.
 
 ## nginx
 
@@ -20,15 +20,15 @@ docker run -p 80:80 -v $(pwd):/var/www ebuildy/nginx:1.10
 
 ```
 
-## nginx+letencrypt
+## nginx+letsencrypt
 
-Nginx 1.10 with LetEncrypt companion to automatically generate SSL certificates.
+Nginx 1.10 with LetsEncrypt companion to automatically generate SSL certificates.
 
 
 ### Docker tags
 
-- letencrypt
-- 1.10+letencrypt
+- ssl
+- 1.10+ssl
 
 ### Environment variables
 
@@ -36,7 +36,7 @@ Nginx 1.10 with LetEncrypt companion to automatically generate SSL certificates.
 - **NGINX_CONF_FILE** File path to nginx conf file (default: nginx.conf)
 
 ```
-docker run -p 80:80 -p 443:443 -v $(pwd):/var/www ebuildy/nginx:1.10+letencrypt
+docker run -p 80:80 -p 443:443 -v $(pwd):/var/www ebuildy/nginx:1.10+ssl
 
 ```
 
