@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv sh
+
+: ${WWW_ROOT:="/var/www"}
+: ${NGINX_CONF_FILE:="$(pwd)/nginx.conf"}
+
+sed -i "s#{{WWW_ROOT}}#${WWW_ROOT}#g" ${NGINX_CONF_FILE}
+
+exec nginx -c ${NGINX_CONF_FILE}

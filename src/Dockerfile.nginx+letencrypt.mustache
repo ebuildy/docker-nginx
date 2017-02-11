@@ -1,0 +1,16 @@
+{{& partial_Dockerfile_base }}
+
+RUN echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y --no-install-recommends \
+        certbot -t jessie-backports
+
+EXPOSE 80
+EXPOSE 443
+
+HEALTHCHECK CMD curl --fail https://localhost/ || exit 1
+
+RUN mkdir -p /etc/nginx/certs
+
+ADD letencrypt/init /etc/cont-init.d/02-letencrypt-onetime

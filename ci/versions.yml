@@ -1,0 +1,55 @@
+data:
+
+  - name: nginx
+    docker:
+      tags:
+      - latest
+      - 1.10
+    build:
+      file: Dockerfile.nginx.mustache
+      paths:
+        - nginx
+      data:
+        nginx_version: "1.10.*"
+    readme:
+      environment:
+        - name: WWW_ROOT
+          title: Set default server root
+          default: /var/www
+        - name: NGINX_CONF_FILE
+          title: File path to nginx conf file
+          default: nginx.conf
+      ports:
+        - 80
+      description: |
+        Nginx 1.10 - Solo - port 80
+      usage: |
+        docker run -p 80:80 -v $(pwd):/var/www ebuildy/nginx:1.10
+
+  - name: nginx+letencrypt
+    docker:
+      tags:
+      - letencrypt
+      - 1.10+letencrypt
+    build:
+      file: Dockerfile.nginx+letencrypt.mustache
+      paths:
+        - nginx
+        - letencrypt
+      data:
+        nginx_version: "1.10.*"
+    readme:
+      environment:
+        - name: WWW_ROOT
+          title: Set default server root
+          default: /var/www
+        - name: NGINX_CONF_FILE
+          title: File path to nginx conf file
+          default: nginx.conf
+      ports:
+        - 80
+        - 443
+      description: |
+        Nginx 1.10 with LetEncrypt companion to automatically generate SSL certificates.
+      usage: |
+        docker run -p 80:80 -p 443:443 -v $(pwd):/var/www ebuildy/nginx:1.10+letencrypt
