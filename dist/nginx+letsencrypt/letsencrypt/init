@@ -11,12 +11,14 @@ if [[ ! -f /etc/nginx/ssl/dhparam.pem ]]; then
 fi
 
 # Setup SSL
-if [[ ${LETSENCRYPT_RUN} && ! -f "/etc/letsencrypt/live" ]]; then
+if [[ ( ${LETSENCRYPT_RUN} = true ) && ( ! -d "/etc/letsencrypt/live" ) ]]; then
 
-		echo "Run LetsEncrypt certs creation ..."
-
-		certbot certonly --webroot --config ${CERTBOT_CONFIG_FILE} --agree-tos
-
+    if [ -f "${CERTBOT_CONFIG_FILE}" ]; then
+		    echo "Run LetsEncrypt certs creation ..."
+		    certbot certonly --webroot --config ${CERTBOT_CONFIG_FILE} --agree-tos
+    else
+      echo "certbot config file ${CERTBOT_CONFIG_FILE} doesnot exist, skipping LE stuff ;-("
+    fi
 fi
 
 [ -d "/etc/nginx/certs" ] && rm -rf /etc/nginx/certs
@@ -26,6 +28,6 @@ if [ -d "/etc/letsencrypt/live" ]; then
 
 	echo "Copying LetsEncrypt SSL stuff ..."
 
-  cp -r /etc/letsencrypt/live  /etc/nginx/certs
+  cp -r /etc/letsencrypt/live/.  /etc/nginx/certs
 
 fi
