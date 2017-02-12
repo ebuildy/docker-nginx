@@ -28,6 +28,6 @@ if [ -d "/etc/letsencrypt/live" ]; then
 
 	echo "Copying LetsEncrypt SSL stuff ..."
 
-  cp -r /etc/letsencrypt/live/.  /etc/nginx/certs
+  cp -r -L /etc/letsencrypt/live/.  /etc/nginx/certs
 
 fi
