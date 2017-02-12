@@ -11,6 +11,7 @@ EXPOSE 443
 
 HEALTHCHECK CMD curl --fail https://localhost/ || exit 1
 
-RUN mkdir -p /etc/nginx/certs
-
 ADD letsencrypt/init /etc/cont-init.d/02-letsencrypt-onetime
+
+VOLUME /etc/nginx/ssl
+VOLUME /etc/letsencrypt

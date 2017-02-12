@@ -21,6 +21,7 @@ data:
           default: nginx.conf
       ports:
         - 80
+      volumes: []
       description: |
         Nginx 1.10 - Solo - port 80
       usage: |
@@ -46,10 +47,24 @@ data:
         - name: NGINX_CONF_FILE
           title: File path to nginx conf file
           default: nginx.conf
+        - name: LETSENCRYPT_RUN
+          title: Control if we must run certbot certs creation or not
+          default: true
+        - name: CERTBOT_CONFIG_FILE
+          title: Path to certbot config file (where you set your domains, email ...)
+          default: /etc/letsencrypt/cli.ini
       ports:
         - 80
         - 443
+      volumes:
+        - path: /etc/nginx/ssl
+          description: |
+            Store Diffie-Hellman group pem file.
+        - path: /etc/letsencrypt
+          description: |
+            Store LetsEncrypt certificates and all stuff generated.
       description: |
         Nginx 1.10 with LetsEncrypt companion to automatically generate SSL certificates.
+        You must create a certbot config.ini file (to set domains, emails etc..), certificates will be generated at container start.
       usage: |
         docker run -p 80:80 -p 443:443 -v $(pwd):/var/www ebuildy/nginx:1.10+ssl

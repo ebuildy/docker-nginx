@@ -1,7 +1,31 @@
 #!/usr/bin/with-contenv bash
 
-if [[ ! -f /etc/nginx/certs/dhparam.pem ]]; then
+: ${LETSENCRYPT_RUN:=true}
+: ${NGINX_DHPARAM_BITS:=4096}
+: ${CERTBOT_CONFIG_FILE:="/etc/letsencrypt/cli.ini"}
+
+if [[ ! -f /etc/nginx/ssl/dhparam.pem ]]; then
     echo "Creating Diffie-Hellman group (can take several minutes...)"
-    openssl dhparam -out /etc/nginx/certs/.dhparam.pem.tmp 2048
-    mv /etc/nginx/certs/.dhparam.pem.tmp /etc/nginx/certs/dhparam.pem || exit 1
+    openssl dhparam -out /etc/nginx/ssl/.dhparam.pem.tmp ${NGINX_DHPARAM_BITS}
+    mv /etc/nginx/ssl/.dhparam.pem.tmp /etc/nginx/ssl/dhparam.pem || exit 1
+fi
+
+# Setup SSL
+if [[ ${LETSENCRYPT_RUN} && ! -f "/etc/letsencrypt/live" ]]; then
+
+		echo "Run LetsEncrypt certs creation ..."
+
+		certbot certonly --webroot --config ${CERTBOT_CONFIG_FILE} --agree-tos
+
+fi
+
+[ -d "/etc/nginx/certs" ] && rm -rf /etc/nginx/certs
+
+# Copy from volume to container
+if [ -d "/etc/letsencrypt/live" ]; then
+
+	echo "Copying LetsEncrypt SSL stuff ..."
+
+  cp -r /etc/letsencrypt/live  /etc/nginx/certs
+
 fi
