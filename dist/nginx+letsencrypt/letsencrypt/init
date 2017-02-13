@@ -21,13 +21,11 @@ if [[ ( ${LETSENCRYPT_RUN} = true ) && ( ! -d "/etc/letsencrypt/live" ) ]]; then
     fi
 fi
 
-[ -d "/etc/nginx/certs" ] && rm -rf /etc/nginx/certs
-
 # Copy from volume to container
 if [ -d "/etc/letsencrypt/live" ]; then
 
 	echo "Copying LetsEncrypt SSL stuff ..."
 
-  cp -r -L /etc/letsencrypt/live/.  /etc/nginx/certs
+  cp -r -L /etc/letsencrypt/live/.  /etc/nginx/certs/
 
 fi
